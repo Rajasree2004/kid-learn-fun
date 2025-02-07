@@ -1,4 +1,7 @@
-django 
-djangorestframework 
-pymongo 
+django
+djangorestframework
+djongo
+pymongo
 django-cors-headers
+django-oauth-toolkit
+python-dotenv
