@@ -1,7 +1,9 @@
 django
 djangorestframework
-djongo
+motor
 pymongo
 django-cors-headers
 django-oauth-toolkit
 python-dotenv
+pytz
+django-auth0

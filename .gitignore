@@ -3,3 +3,5 @@ pyen
 npm-debug.log
 node_modules
 phaser
+__pycache__
+.env.local

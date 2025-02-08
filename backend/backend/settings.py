@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 import os
 from dotenv import load_dotenv
 from pathlib import Path
+from pymongo import MongoClient
 
 load_dotenv()  # Load environment variables from .env
 
@@ -25,7 +26,10 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # SECURITY WARNING: keep the secret key used in production secret!
 
 SECRET_KEY = os.getenv("SECRET_KEY", "fallback_default_secret_key")
-
+AUTH0_DOMAIN = os.getenv("AUTH0_DOMAIN")
+AUTH0_CLIENT_ID = os.getenv("AUTH0_CLIENTID")
+AUTH0_CLIENT_SECRET=os.getenv("AUTH0_CLIENTSECRET")
+AUTH0_ALGORITHM = "RS256"
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -42,9 +46,19 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    "rest_framework",
+    "corsheaders",
+    "rest_framework_simplejwt",
 ]
 
+REST_FRAMEWORK = {
+    "DEFAULT_AUTHENTICATION_CLASSES": (
+        "rest_framework_simplejwt.authentication.JWTAuthentication",
+    ),
+}
+
 MIDDLEWARE = [
+    "corsheaders.middleware.CorsMiddleware",
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -53,6 +67,13 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
+
+CORS_ALLOWED_ORIGINS = [
+    "http://localhost:3000",
+    "http://localhost:3001",
+]
+
+CORS_ALLOW_CREDENTIALS = True
 
 ROOT_URLCONF = 'backend.urls'
 
@@ -83,14 +104,18 @@ DATABASES = {
     #     'ENGINE': 'django.db.backends.sqlite3',
     #     'NAME': BASE_DIR / 'db.sqlite3',
     # }
-    'default': {
-        'ENGINE': 'djongo',
-        'NAME': 'game-data',
-        'CLIENT': {
-            'host': os.getenv("MONGO_DB_STR")
-        }
-    }
+    # 'default': {
+    #     'ENGINE': 'motor',
+    #     'NAME': 'game-data',
+    #     'CLIENT': {
+    #         'host': os.getenv("MONGO_DB_STR")
+    #     }
+    # }
 }
+
+MONGO_URI=os.getenv("MONGO_DB_STR")
+mongo_client = MongoClient(MONGO_URI)
+mongo_db = mongo_client['game-data']
 
 
 # Password validation
