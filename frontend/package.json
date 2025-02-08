@@ -1,0 +1,27 @@
+{
+  "name": "kid-learn-fun",
+  "version": "1.0.0",
+  "description": "Game portal for kids",
+  "keywords": [
+    "fun",
+    "games"
+  ],
+  "homepage": "https://github.com/Rajasree2004/kid-learn-fun#readme",
+  "bugs": {
+    "url": "https://github.com/Rajasree2004/kid-learn-fun/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/Rajasree2004/kid-learn-fun.git"
+  },
+  "license": "ISC",
+  "author": "Rajasree S",
+  "type": "module",
+  "main": "index.js",
+  "scripts": {
+    "test": "jest"
+  },
+  "dependencies": {
+    "phaser": "^3.87.0"
+  }
+}
