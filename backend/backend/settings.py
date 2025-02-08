@@ -20,7 +20,13 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/5.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-s94o0_a*6cc5!8osc!7n46#&ao%#mtt0=+idys6^qomh+2#s*1'
+import os
+from dotenv import load_dotenv
+
+load_dotenv()  # Load environment variables from .env
+
+SECRET_KEY = os.getenv("SECRET_KEY", "fallback_default_secret_key")
+
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -74,9 +80,16 @@ WSGI_APPLICATION = 'backend.wsgi.application'
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
 
 DATABASES = {
+    # 'default': {
+    #     'ENGINE': 'django.db.backends.sqlite3',
+    #     'NAME': BASE_DIR / 'db.sqlite3',
+    # }
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'djongo',
+        'NAME': 'game_fun',
+        'CLIENT': {
+            'host': 'mongodb://localhost:27017/game_fun'
+        }
     }
 }
 
