@@ -7,3 +7,4 @@ django-oauth-toolkit
 python-dotenv
 pytz
 django-auth0
+bcrypt

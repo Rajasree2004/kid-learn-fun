@@ -1,19 +1,18 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-const Login = () => {
+const Register = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const navigate = useNavigate();
 
-  // ✅ Handle Manual Login (Email & Password)
-  const handleLogin = async (e) => {
+  const handleRegister = async (e) => {
     e.preventDefault();
     setError("");
 
     try {
-      const response = await fetch("http://localhost:8000/api/auth/login/", {
+      const response = await fetch("http://localhost:8000/api/auth/register/", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email, password }),
@@ -22,30 +21,23 @@ const Login = () => {
       const data = await response.json();
 
       if (!response.ok) {
-        setError(data.error || "Login failed");
+        setError(data.error || "Registration failed");
         return;
       }
 
-      // ✅ Store JWT Token in localStorage
       localStorage.setItem("auth_token", data.access_token);
-      navigate("/dashboard");
+      alert("Registration successful! Please log in.");
+      navigate("/login");
     } catch (err) {
       setError("Something went wrong. Try again.");
     }
   };
 
-  // ✅ Handle Google Login via Auth0
-  const handleGoogleLogin = () => {
-    window.location.href = "http://localhost:8000/api/auth/login/google/";
-  };
-
   return (
     <div>
-      <h2>Login</h2>
+      <h2>Register</h2>
       {error && <p style={{ color: "red" }}>{error}</p>}
-      
-      {/* ✅ Manual Login Form */}
-      <form onSubmit={handleLogin}>
+      <form onSubmit={handleRegister}>
         <input
           type="email"
           placeholder="Email"
@@ -60,17 +52,11 @@ const Login = () => {
           onChange={(e) => setPassword(e.target.value)}
           required
         />
-        <button type="submit">Login</button>
+        <button type="submit">Register</button>
       </form>
-
-      {/* ✅ Google Login Button */}
-      <button onClick={handleGoogleLogin} style={{ marginTop: "10px", background: "red", color: "white" }}>
-        Login with Google
-      </button>
-
-      <p>Don't have an account? <a href="/register">Register</a></p>
+      <p>Already have an account? <a href="/login">Login</a></p>
     </div>
   );
 };
 
-export default Login;
+export default Register;
