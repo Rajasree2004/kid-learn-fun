@@ -13,6 +13,7 @@ import os
 from dotenv import load_dotenv
 from pathlib import Path
 from pymongo import MongoClient
+import motor.motor_asyncio
 
 load_dotenv()  # Load environment variables from .env
 
@@ -111,10 +112,14 @@ DATABASES = {
     #         'host': os.getenv("MONGO_DB_STR")
     #     }
     # }
+    'default': {
+        'ENGINE': 'django.db.backends.dummy',  # Using dummy backend since you're using MongoDB
+    }
 }
 
 MONGO_URI=os.getenv("MONGO_DB_STR")
-mongo_client = MongoClient(MONGO_URI)
+DB_NAME = "game-data"
+mongo_client = motor.motor_asyncio.AsyncIOMotorClient(MONGO_URI)
 mongo_db = mongo_client['game-data']
 
 
